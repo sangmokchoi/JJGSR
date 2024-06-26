@@ -1,19 +1,24 @@
 
 import 'dart:async';
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import '../extensions.dart';
+import '../model/Quiz.dart';
 
 class QuizViewViewModel extends ChangeNotifier {
 
   Timer? timer;
 
   double currentValue = 0.0;
-  PageController pageController = PageController();
-  double seconds = 10.0;
+  PageController quizVmPageController = PageController();
+
+  final Box<int> secondsBox = Hive.box<int>('seconds');
+  Future updateSeconds(double seconds) async {
+    secondsBox.put('seconds', seconds.toInt());
+  }
+  double seconds = 30.0;
 
   Future addCurrentValue() async {
     currentValue += 1.0;
@@ -25,6 +30,11 @@ class QuizViewViewModel extends ChangeNotifier {
   }
   Future maximizeCurrentValue() async {
     currentValue = seconds;
+    notifyListeners();
+  }
+  Future changeSeconds(int value) async {
+    seconds = value.toDouble();
+    await updateSeconds(seconds);
     notifyListeners();
   }
 
@@ -49,11 +59,10 @@ class QuizViewViewModel extends ChangeNotifier {
   }
 
   bool get isLastPage {
-    return pageController.page?.toInt() == (pageController.positions.isNotEmpty ? pageController.positions.first.maxScrollExtent.toInt() : 0) / pageController.position.viewportDimension.toInt();
+    return quizVmPageController.page?.toInt() == (quizVmPageController.positions.isNotEmpty ? quizVmPageController.positions.first.maxScrollExtent.toInt() : 0) / quizVmPageController.position.viewportDimension.toInt();
   }
 
-
-  void startTimer(BuildContext context, int totalPages) {
+  void startTimer(BuildContext context) {
     // 기존 타이머가 있으면 취소
     timer?.cancel();
 
@@ -64,6 +73,7 @@ class QuizViewViewModel extends ChangeNotifier {
 
   void scrollPage(BuildContext context) async {
     addCurrentValue();
+
     if (currentValue >= seconds) {
       resetCurrentValue(); // 10초 이상이 되면 다시 0으로 초기화
 
@@ -71,12 +81,22 @@ class QuizViewViewModel extends ChangeNotifier {
         timer!.cancel();
         Extensions().endQuizAlert(context);
       } else {
-        pageController.nextPage(
+        quizVmPageController.nextPage(
           duration: Duration(milliseconds: 500),
           curve: Curves.easeInOut,
         );
       }
     }
   }
+
+  final Box<Quiz> quizBox = Hive.box<Quiz>('quizzes');
+  Future updateQuizStatus(Quiz quiz, int status) async {
+    quiz.status = status;
+
+    final Quiz _statusUpdated = quiz;
+    quizBox.put(_statusUpdated.id, _statusUpdated);
+
+  }
+
 
 }

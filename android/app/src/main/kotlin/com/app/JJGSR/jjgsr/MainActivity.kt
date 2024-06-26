@@ -1,4 +1,4 @@
-package com.app.JJGSR.jjgsr
+package com.app.JJGSR
 
 import io.flutter.embedding.android.FlutterActivity
 
