@@ -20,7 +20,7 @@ class FirestoreService {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final LocalQuiz _localQuiz = LocalQuiz();
 
-  int fixedLimit = 3;
+  int fixedLimit = 30;
 
   // Firestore에서 문서를 제한된 개수만큼 가져오는 메서드
   Future<List<Quiz>> getLimitedDocuments(

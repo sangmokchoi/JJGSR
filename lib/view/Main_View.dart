@@ -10,6 +10,7 @@ import 'package:jjgsr/extensions.dart';
 import 'package:jjgsr/viewModel/Main_View_ViewModel.dart';
 import 'package:jjgsr/viewModel/Quiz_View_ViewModel.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../Constants.dart';
 import '../main.dart';
@@ -63,6 +64,7 @@ class MainView extends StatelessWidget {
                                     vm.mainViewShowDialog(
                                         navigatorKey.currentContext!);
                                   },
+                                  isDefaultAction: true,
                                   child: Text(
                                     '문제 타이머: ${Provider.of<QuizViewViewModel>(context, listen: false).seconds.toInt()}초',
                                     style: TextStyle(color: Colors.blue),
@@ -71,6 +73,10 @@ class MainView extends StatelessWidget {
                                 CupertinoActionSheetAction(
                                   onPressed: () {
                                     Navigator.pop(context);
+                                    launchUrl(
+                                      Uri.parse(kTermsOfUse),
+                                      mode: LaunchMode.externalApplication,
+                                    );
                                   },
                                   child: const Text(
                                     '이용약관',
@@ -80,6 +86,10 @@ class MainView extends StatelessWidget {
                                 CupertinoActionSheetAction(
                                   onPressed: () {
                                     Navigator.pop(context);
+                                    launchUrl(
+                                      Uri.parse(kPrivacy),
+                                      mode: LaunchMode.externalApplication,
+                                    );
                                   },
                                   child: const Text(
                                     '개인정보 처리방침',
@@ -94,6 +104,23 @@ class MainView extends StatelessWidget {
                                   },
                                   child: const Text(
                                     '오픈소스 라이센스',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                CupertinoActionSheetAction(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    Extensions().sendToStore(context);
+                                  },
+                                  child: const Text(
+                                    '스토어 평점 남기기',
+                                    style: TextStyle(color: Colors.blue),
+                                  ),
+                                ),
+                                CupertinoActionSheetAction(
+                                  onPressed: () {},
+                                  child: const Text(
+                                    '앱 버전: 1.0.0',
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ),
@@ -372,7 +399,7 @@ class MainView extends StatelessWidget {
                                           if (_renderCompleteState)
                                             Container(
                                               margin: const EdgeInsets.only(
-                                                  bottom: 8.0),
+                                                  top: 8.0),
                                               width: 16,
                                               height: 16,
                                               child: CupertinoActivityIndicator(
@@ -425,7 +452,7 @@ class MainView extends StatelessWidget {
                               builder: (BuildContext context, Widget child,
                                   IndicatorController controller) {
                                 final height = 100.0;
-                                final triggerDistance = 35.0;
+                                final triggerDistance = 30.0;
                                 final dy = controller.value.clamp(0.0, 1.25) *
                                     -(height - (height * 0.25));
                                 return Stack(
@@ -435,8 +462,7 @@ class MainView extends StatelessWidget {
                                       child: child,
                                     ),
                                     Positioned(
-                                      bottom: -height + triggerDistance,
-                                      //bottom: -height,
+                                      bottom: -height,
                                       left: 0,
                                       right: 0,
                                       height: height,
