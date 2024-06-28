@@ -31,13 +31,14 @@ class QuizAdapter extends TypeAdapter<Quiz> {
       dislike_count: fields[11] as int?,
       progress_Time: fields[12] as double?,
       status: fields[13] as int?,
+      explanation: fields[14] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Quiz obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -65,7 +66,9 @@ class QuizAdapter extends TypeAdapter<Quiz> {
       ..writeByte(12)
       ..write(obj.progress_Time)
       ..writeByte(13)
-      ..write(obj.status);
+      ..write(obj.status)
+      ..writeByte(14)
+      ..write(obj.explanation);
   }
 
   @override

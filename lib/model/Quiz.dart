@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:hive/hive.dart';
 
 part 'Quiz.g.dart';
@@ -46,6 +48,9 @@ class Quiz extends HiveObject {
   @HiveField(13)
   late int? status; // null 아직 풀지 않음, -1 틀림, 0 스킵, 1 맞힘
 
+  @HiveField(14)
+  late String? explanation;
+
   Quiz({
     required this.id,
     required this.generatedTime,
@@ -61,6 +66,7 @@ class Quiz extends HiveObject {
     this.dislike_count,
     this.progress_Time,
     this.status,
+    this.explanation,
   });
 
   // toJson 메서드: 객체를 Map으로 직렬화합니다.
@@ -98,6 +104,9 @@ class Quiz extends HiveObject {
     if (status != null) {
       json['status'] = status;
     }
+    if (explanation != null) {
+      json['explanation'] = explanation;
+    }
 
     return json;
   }
@@ -119,6 +128,7 @@ class Quiz extends HiveObject {
       dislike_count: json['dislike_count'],
       progress_Time: json['progress_Time'],
       status: json['status'],
+      explanation: json['explanation'],
     );
   }
 }

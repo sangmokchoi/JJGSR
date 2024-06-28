@@ -54,6 +54,7 @@ class FirestoreService {
         dislike_count: null,
         progress_Time: null,
         status: null,
+        explanation: null
       );
       quizList.add(quiz);
     }
