@@ -22,8 +22,6 @@ import 'package:provider/provider.dart';
 
 import 'model/Quiz.dart';
 
-final RemoteConfig _remoteConfig = RemoteConfig();
-
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
@@ -118,6 +116,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   final LocalQuiz _localQuiz = LocalQuiz();
+  final RemoteConfig _remoteConfig = RemoteConfig();
 
   @override
   void initState() {

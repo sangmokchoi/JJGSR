@@ -13,19 +13,34 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../Constants.dart';
+import '../dataSource/remote/remoteConfig.dart';
 import '../main.dart';
 import '../model/Quiz.dart';
 
 class MainView extends StatelessWidget {
   // 싱글톤 FirestoreService 인스턴스 사용
   final FirestoreService _firestoreService = FirestoreService();
+  final RemoteConfig _remoteConfig = RemoteConfig();
   bool _renderCompleteState = false;
 
   double _width = 80;
   double _height = 45;
 
+  late String appVersion;
+
   @override
   Widget build(BuildContext context) {
+
+    //loadAppVersion
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) async {
+      await _remoteConfig.loadAppVersion().then((value) async {
+        appVersion = value;
+      });
+
+    });
+
+
     return Consumer<MainViewViewModel>(builder: (context, vm, child) {
       return SafeArea(
         child: Stack(
@@ -119,8 +134,8 @@ class MainView extends StatelessWidget {
                                 ),
                                 CupertinoActionSheetAction(
                                   onPressed: () {},
-                                  child: const Text(
-                                    '앱 버전: 1.0.0',
+                                  child: Text(
+                                    '앱 버전: $appVersion',
                                     style: TextStyle(color: Colors.blue),
                                   ),
                                 ),
@@ -537,16 +552,20 @@ class MainView extends StatelessWidget {
                                     final document = documents.elementAt(index);
                                     return GestureDetector(
                                       onTap: () async {
-                                        final _totalQuizList = vm.totalQuizList
-                                            .toList(); // deepCopy
+                                        // final _totalQuizList = vm.totalQuizList
+                                        //     .toList(); // deepCopy
+
+                                        final quizViewDocuments = documents.toList();
 
                                         await vm
                                             .reorderDocuments(
-                                                _totalQuizList, index)
+                                            quizViewDocuments, index)
                                             .then((reorderedDocs) {
                                           Navigator.of(context).pushNamed(
                                               "/QuizView",
-                                              arguments: reorderedDocs);
+                                              arguments: reorderedDocs).then((value) {
+                                                vm.notifyListeners();
+                                          });
                                         });
                                       },
                                       child: Stack(

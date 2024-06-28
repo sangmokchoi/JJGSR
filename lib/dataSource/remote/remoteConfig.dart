@@ -44,6 +44,20 @@ class RemoteConfig {
     }
   }
 
+  Future<String> loadAppVersion() async {
+    // 앱 버전 정보 가져오기
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+    // String appName = packageInfo.appName;
+    // String packageName = packageInfo.packageName;
+    String appVersion = packageInfo.version ?? '';
+    //String buildNumber = packageInfo.buildNumber;
+
+    // debugPrint('packageName :$packageName');
+    debugPrint('appVersion :$appVersion');
+    //debugPrint('buildNumber :$buildNumber');
+    return appVersion;
+  }
 
 
   // 앱 버전 확인
@@ -51,18 +65,7 @@ class RemoteConfig {
 
     // await remoteConfigFetchAndActivate();
 
-    // 앱 버전 정보 가져오기
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-    String appName = packageInfo.appName;
-    String packageName = packageInfo.packageName;
-    String appVersion = packageInfo.version ?? '';
-    String buildNumber = packageInfo.buildNumber;
-
-    debugPrint('appName :$appName');
-    debugPrint('packageName :$packageName');
-    debugPrint('appVersion :$appVersion');
-    debugPrint('buildNumber :$buildNumber');
+    final appVersion = await loadAppVersion();
 
     // 파이어베이스 버전 정보 가져오기 remote config
     // (매개변수명 latest_version)
