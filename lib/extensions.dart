@@ -59,7 +59,7 @@ class Extensions {
                 onPressed: () {
                   Navigator.pop(context);
                   final appId =
-                  Platform.isAndroid ? 'com.app.JJGSR' : '6504566336';
+                  Platform.isAndroid ? 'com.app.JJGSR' : '6504901441';
 
                   final url = Uri.parse(
                     Platform.isAndroid
