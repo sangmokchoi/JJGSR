@@ -13,7 +13,7 @@
 - **Github:** [https://github.com/sangmokchoi/JJGSR](https://github.com/sangmokchoi/JJGSR)
 
 - **App Store:** [<찍신강림> 다운로드 바로가기](https://apps.apple.com/app/%EC%B0%8D%EC%8B%A0%EA%B0%95%EB%A6%BC/id6504901441)
-- **Play Store:** (배포중)[<찍신강림> 다운로드 바로가기](https://play.google.com/store/apps/details?id=com.app.JJGSR)
+- **Play Store:** [<찍신강림> 다운로드 바로가기](https://play.google.com/store/apps/details?id=com.app.JJGSR)
 
 - 기술 구조 요약
   - **UI:** `Figma`
