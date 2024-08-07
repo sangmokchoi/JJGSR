@@ -18,7 +18,8 @@
 - 기술 구조 요약
   - **UI:** `Figma`
   - **Architecture**: `MVVM`
-  - **Data Storage**: (Firebase) `Firestore Database`
+  - **Communication**: `Confluence`
+  - **Data Storage**: `Firebase Firestore`
   - **Library/Framework:**
       - **Firebase**
       `Crashlyitics`, `Remote Config`
